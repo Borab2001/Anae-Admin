@@ -65,7 +65,7 @@ export default function StoreSwitcher({
                                 <CommandItem
                                     key={store.value}
                                     onSelect={() => onStoreSelect(store)}
-                                    className="text-sm"
+                                    className="text-sm cursor-pointer"
                                 >
                                     <StoreIcon className="mr-2 h-4 w-4" />
                                     {store.label}
@@ -89,6 +89,7 @@ export default function StoreSwitcher({
                                     setOpen(false)
                                     storeModal.onOpen();
                                 }}
+                                className="cursor-pointer"
                             >
                                 <PlusCircle className="mr-2 h-5 w-5" />
                                 Create Store
