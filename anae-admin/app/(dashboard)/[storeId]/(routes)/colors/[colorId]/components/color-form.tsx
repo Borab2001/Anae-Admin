@@ -137,7 +137,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({
                                         <div className="flex items-center gap-x-4">
                                             <Input disabled={loading} placeholder="Color value" {...field} />
                                             <div 
-                                                className="border p-4 rounded-full"
+                                                className="h-10 w-10 border border-input p-4 ring-offset-background rounded-md"
                                                 style={{ backgroundColor: field.value }}
                                             />
                                         </div>
