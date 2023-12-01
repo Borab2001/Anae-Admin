@@ -2,7 +2,7 @@ import { format } from "date-fns";
 
 import prismadb from "@/lib/prismadb";
 
-import { SizeClient } from "./components/client";
+import { ColorClient } from "./components/client";
 import { ColorColumn } from "./components/columns";
 
 const ColorsPage = async ({
@@ -29,7 +29,7 @@ const ColorsPage = async ({
     return (
         <div className="flex-col">
             <div className="flex-1 space-y-4 p-8 pt-6">
-                <SizeClient data={formattedColors} />
+                <ColorClient data={formattedColors} />
             </div>
         </div>
     );
