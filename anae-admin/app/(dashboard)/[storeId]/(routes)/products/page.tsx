@@ -1,14 +1,19 @@
 import { format } from "date-fns";
 
 import prismadb from "@/lib/prismadb";
+import { formatter } from "@/lib/utils"; // Ensure this is the correct path
 
 import { BillboardClient } from "./components/client";
 import { BillboardColumn } from "./components/columns";
 
 const ProductsPage = async ({
-    params
+    params,
+    userLocale = 'fr-FR', // Default locale
+    userCurrency = 'EUR' // Default currency
 }: {
-    params: { storeId: string }
+    params: { storeId: string },
+    userLocale?: string,
+    userCurrency?: string
 }) => {
     const products = await prismadb.product.findMany({
         where: {
@@ -24,12 +29,18 @@ const ProductsPage = async ({
         }
     });
 
+    // Create an instance of the formatter with the user's locale and currency
+    const priceFormatter = formatter(userLocale, userCurrency);
+
     const formattedProducts: BillboardColumn[] = products.map((item) => ({
         id: item.id,
         name: item.name,
         isFeatured: item.isFeatured,
         isArchived: item.isArchived,
-        price: item.price,
+        price: priceFormatter.format(item.price.toNumber()),
+        category: item.category.name,
+        size: item.category.name,
+        color: item.color.value,
         createdAt: format(item.createdAt, 'MMMM do, yyyy'),
     }));
 
@@ -41,5 +52,5 @@ const ProductsPage = async ({
         </div>
     );
 }
- 
+
 export default ProductsPage;
