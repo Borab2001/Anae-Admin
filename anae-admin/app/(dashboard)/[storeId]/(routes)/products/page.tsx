@@ -3,8 +3,8 @@ import { format } from "date-fns";
 import prismadb from "@/lib/prismadb";
 import { formatter } from "@/lib/utils"; // Ensure this is the correct path
 
-import { BillboardClient } from "./components/client";
-import { BillboardColumn } from "./components/columns";
+import { ProductClient } from "./components/client";
+import { ProductColumn } from "./components/columns";
 
 const ProductsPage = async ({
     params,
@@ -32,7 +32,7 @@ const ProductsPage = async ({
     // Create an instance of the formatter with the user's locale and currency
     const priceFormatter = formatter(userLocale, userCurrency);
 
-    const formattedProducts: BillboardColumn[] = products.map((item) => ({
+    const formattedProducts: ProductColumn[] = products.map((item) => ({
         id: item.id,
         name: item.name,
         isFeatured: item.isFeatured,
@@ -47,7 +47,7 @@ const ProductsPage = async ({
     return (
         <div className="flex-col">
             <div className="flex-1 space-y-4 p-8 pt-6">
-                <BillboardClient data={formattedProducts} />
+                <ProductClient data={formattedProducts} />
             </div>
         </div>
     );
