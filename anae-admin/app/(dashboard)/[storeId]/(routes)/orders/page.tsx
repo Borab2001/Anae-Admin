@@ -4,7 +4,7 @@ import prismadb from "@/lib/prismadb";
 import { formatter } from "@/lib/utils";
 
 import { BillboardClient } from "./components/client";
-import { BillboardColumn } from "./components/columns";
+import { OrderColumn } from "./components/columns";
 
 const OrdersPage = async ({
     params
@@ -27,7 +27,7 @@ const OrdersPage = async ({
         }
     });
 
-    const formattedOrders: BillboardColumn[] = orders.map((item) => ({
+    const formattedOrders: OrderColumn[] = orders.map((item) => ({
         id: item.id,
         phone: item.phone,
         address: item.address,
@@ -35,6 +35,7 @@ const OrdersPage = async ({
         totalPrice: formatter.format(item.orderItems.reduce((total, item) => {
             return total + Number(item.product.price)
         }, 0)),
+        isPaid: item.isPaid,
         createdAt: format(item.createdAt, 'MMMM do, yyyy'),
     }));
 
