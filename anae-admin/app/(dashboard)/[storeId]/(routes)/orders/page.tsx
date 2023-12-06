@@ -3,13 +3,17 @@ import { format } from "date-fns";
 import prismadb from "@/lib/prismadb";
 import { formatter } from "@/lib/utils";
 
-import { BillboardClient } from "./components/client";
+import { OrderClient } from "./components/client";
 import { OrderColumn } from "./components/columns";
 
 const OrdersPage = async ({
-    params
+    params,
+    userLocale = 'fr-FR', // Default locale
+    userCurrency = 'EUR' // Default currency
 }: {
-    params: { storeId: string }
+    params: { storeId: string },
+    userLocale?: string,
+    userCurrency?: string
 }) => {
     const orders = await prismadb.order.findMany({
         where: {
@@ -27,12 +31,15 @@ const OrdersPage = async ({
         }
     });
 
+    // Create an instance of the formatter with the user's locale and currency
+    const priceFormatter = formatter(userLocale, userCurrency);
+
     const formattedOrders: OrderColumn[] = orders.map((item) => ({
         id: item.id,
         phone: item.phone,
         address: item.address,
         products: item.orderItems.map((orderItem) => orderItem.product.name).join(', '),
-        totalPrice: formatter.format(item.orderItems.reduce((total, item) => {
+        totalPrice: priceFormatter.format(item.orderItems.reduce((total, item) => {
             return total + Number(item.product.price)
         }, 0)),
         isPaid: item.isPaid,
@@ -42,7 +49,7 @@ const OrdersPage = async ({
     return (
         <div className="flex-col">
             <div className="flex-1 space-y-4 p-8 pt-6">
-                <BillboardClient data={formattedOrders} />
+                <OrderClient data={formattedOrders} />
             </div>
         </div>
     );
