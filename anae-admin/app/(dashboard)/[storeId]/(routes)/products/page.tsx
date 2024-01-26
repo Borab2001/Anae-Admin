@@ -1,19 +1,15 @@
 import { format } from "date-fns";
 
 import prismadb from "@/lib/prismadb";
-import { formatter } from "@/lib/utils"; // Ensure this is the correct path
+import { formatter } from "@/lib/utils";
 
 import { ProductClient } from "./components/client";
 import { ProductColumn } from "./components/columns";
 
 const ProductsPage = async ({
     params,
-    userLocale = 'fr-FR', // Default locale
-    userCurrency = 'EUR' // Default currency
 }: {
     params: { storeId: string },
-    userLocale?: string,
-    userCurrency?: string
 }) => {
     const products = await prismadb.product.findMany({
         where: {
@@ -29,15 +25,12 @@ const ProductsPage = async ({
         }
     });
 
-    // Create an instance of the formatter with the user's locale and currency
-    const priceFormatter = formatter(userLocale, userCurrency);
-
     const formattedProducts: ProductColumn[] = products.map((item) => ({
         id: item.id,
         name: item.name,
         isFeatured: item.isFeatured,
         isArchived: item.isArchived,
-        price: priceFormatter.format(item.price.toNumber()),
+        price: formatter.format(item.price.toNumber()),
         category: item.category.name,
         size: item.size.name,
         color: item.color.value,
