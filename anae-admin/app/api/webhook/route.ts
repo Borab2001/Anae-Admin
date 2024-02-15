@@ -34,7 +34,7 @@ export async function POST(req: Request) {
         address?.country,
     ];
 
-    const addressString = addressComponents.filter((c) => c != null).join(', ');
+    const addressString = addressComponents.filter((c) => c !== null).join(', ');
 
     if (event.type === "checkout.session.completed") {
         
@@ -57,14 +57,14 @@ export async function POST(req: Request) {
         await prismadb.product.updateMany({
             where: {
                 id: {
-                    in: [...productIds]
-                }
+                    in: [...productIds],
+                },
             },
             data: {
                 isArchived: true
             }
         });
     }
-    
+
     return new NextResponse(null, { status: 200 });
 }
