@@ -191,7 +191,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                             name="composition"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Description</FormLabel>
+                                    <FormLabel>Composition</FormLabel>
                                     <FormControl>
                                         <Input disabled={loading} placeholder="Product composition" {...field} />
                                     </FormControl>
