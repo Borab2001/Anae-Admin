@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import prismadb from "@/lib/prismadb";
 import { formatter } from "@/lib/utils";
 import { getTotalRevenue } from "@/actions/get-total-revenue";
+import { getSalesCount } from "@/actions/get-sales-count";
 
 interface DashboardPageProps {
     params: { 
@@ -18,7 +19,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
 }) => {
     
     const totalRevenue = await getTotalRevenue(params.storeId);
-    const salesCount = () => {};
+    const salesCount = await getSalesCount(params.storeId);
     const stockCount = () => {};
 
     return (
@@ -49,7 +50,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">
-                                +25
+                                {salesCount}
                             </div>
                         </CardContent>
                     </Card>
