@@ -7,6 +7,7 @@ import prismadb from "@/lib/prismadb";
 import { formatter } from "@/lib/utils";
 import { getTotalRevenue } from "@/actions/get-total-revenue";
 import { getSalesCount } from "@/actions/get-sales-count";
+import { getStockCount } from "@/actions/get-stock-count";
 
 interface DashboardPageProps {
     params: { 
@@ -20,7 +21,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
     
     const totalRevenue = await getTotalRevenue(params.storeId);
     const salesCount = await getSalesCount(params.storeId);
-    const stockCount = () => {};
+    const stockCount = await getStockCount(params.storeId);
 
     return (
         <div className="flex-col">
@@ -41,6 +42,8 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
                             </div>
                         </CardContent>
                     </Card>
+
+                    {/* Will be useful for individual product stocks */}
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium">
@@ -63,7 +66,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">
-                                12
+                                {stockCount}
                             </div>
                         </CardContent>
                     </Card>
