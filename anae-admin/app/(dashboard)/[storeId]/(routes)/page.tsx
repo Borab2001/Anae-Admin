@@ -8,6 +8,7 @@ import { formatter } from "@/lib/utils";
 import { getTotalRevenue } from "@/actions/get-total-revenue";
 import { getSalesCount } from "@/actions/get-sales-count";
 import { getStockCount } from "@/actions/get-stock-count";
+import { Overview } from "@/components/overview";
 
 interface DashboardPageProps {
     params: { 
