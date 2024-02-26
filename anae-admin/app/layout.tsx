@@ -5,28 +5,31 @@ import { ModalProvider } from '@/providers/modal-provider'
 import { ToasterProvider } from '@/providers/toast-provider'
 
 import './globals.css'
+import { ThemeProvider } from '@/providers/theme-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Anaé Admin Dashboard',
-  description: "The admin dashboard of Maison Anaé's e-commerce app",
+	title: 'Anaé Admin Dashboard',
+	description: "The admin dashboard of Maison Anaé's e-commerce app",
 }
 
 export default function RootLayout({
-  children,
+  	children,
 }: {
-  children: React.ReactNode
+  	children: React.ReactNode
 }) {
-  return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={inter.className}>
-          <ToasterProvider />
-          <ModalProvider />
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
-  )
+	return (
+		<ClerkProvider>
+			<html lang="en">
+				<body className={inter.className}>
+					<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+						<ToasterProvider />
+						<ModalProvider />
+						{children}
+					</ThemeProvider>
+				</body>
+			</html>
+		</ClerkProvider>
+	)
 }
