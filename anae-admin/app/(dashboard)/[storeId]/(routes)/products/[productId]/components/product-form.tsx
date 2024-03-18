@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { AlertModal } from "@/components/modals/alert-modal";
 import ImageUpload from "@/components/ui/image-upload";
 import { Checkbox } from "@/components/ui/checkbox";
+import MultiSelect from "@/components/ui/multi-select";
 
 const formSchema = z.object({
     name: z.string().min(1),
@@ -247,41 +248,58 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="sizeId"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Size</FormLabel>
-                                        <Select 
-                                            disabled={loading} 
-                                            onValueChange={field.onChange} 
-                                            value={field.value} 
-                                            defaultValue={field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue 
-                                                        defaultValue={field.value}
-                                                        placeholder="Select a size"
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                {sizes.map((size) => (
-                                                    <SelectItem
-                                                        key={size.id}
-                                                        value={size.id}
-                                                    >
-                                                        {size.name}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        {sizes.length > 0 && (
+                            <FormField
+                                control={form.control}
+                                name="sizeId"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Size</FormLabel>
+                                        <FormControl>
+                                            {/* <Select 
+                                                disabled={loading} 
+                                                onValueChange={field.onChange} 
+                                                value={field.value} 
+                                                defaultValue={field.value}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue 
+                                                            defaultValue={field.value}
+                                                            placeholder="Select a size"
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {sizes.map((size) => (
+                                                        <SelectItem
+                                                            key={size.id}
+                                                            value={size.id}
+                                                        >
+                                                            {size.name}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select> */}
+                                            <MultiSelect 
+                                                placeholder="Select sizes"
+                                                sizes={sizes}
+                                                value={field.value}
+                                                onChange={(id) => field.onChange([...field.value, id])}
+                                                onRemove={(idToRemove) => 
+                                                    field.onChange([
+                                                        ...field.value.filter(
+                                                            (sizeId) => idToRemove !== sizeId
+                                                        ),
+                                                    ])
+                                                }
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        )}
                         <FormField
                             control={form.control}
                             name="colorId"
