@@ -255,8 +255,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Size</FormLabel>
-                                        <FormControl>
-                                            {/* <Select 
+                                        {/* <FormControl> */}
+                                            <Select 
                                                 disabled={loading} 
                                                 onValueChange={field.onChange} 
                                                 value={field.value} 
@@ -280,8 +280,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                                         </SelectItem>
                                                     ))}
                                                 </SelectContent>
-                                            </Select> */}
-                                            <MultiSelect 
+                                            </Select>
+                                            {/* <MultiSelect 
                                                 placeholder="Select sizes"
                                                 sizes={sizes}
                                                 value={field.value}
@@ -293,8 +293,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                                         ),
                                                     ])
                                                 }
-                                            />
-                                        </FormControl>
+                                            /> */}
+                                        {/* </FormControl> */}
                                         <FormMessage />
                                     </FormItem>
                                 )}
