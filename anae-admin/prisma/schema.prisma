@@ -79,19 +79,6 @@ model Billboard {
 //   @@index([billboardId])
 // }
 
-model Category {
-  id                String        @id @default(auto()) @map("_id") @db.ObjectId
-  storeId           String        @db.ObjectId
-  store             Store         @relation("StoreToCategory", fields:[storeId], references:[id]) 
-  billboardId       String
-  billboard         Billboard     @relation(fields: [billboardId], references: [id])
-  products          Product[]     @relation("CategoryToProduct")
-  name              String
-  // productCount      Int           @default(0)
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
-}
-
 // model Size {
 //   id            String      @id @default(uuid())
 //   storeId       String
