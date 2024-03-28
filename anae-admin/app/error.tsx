@@ -12,8 +12,8 @@ interface ErrorProps {
 
 const Error: React.FC<ErrorProps> = ({
     error,
-    title = "Oops",
-    subtitle = "Try changing or removing some of your filters",
+    title = "Oops...",
+    subtitle = "Something has gone wrong",
 }) => {
     useEffect(() => {
         console.error(error);
@@ -23,11 +23,11 @@ const Error: React.FC<ErrorProps> = ({
 
 
     return (
-        <div className="text-center">
+        <div className="h-screen flex flex-col items-center justify-center text-center">
             <div className="text-2xl font-bold">
                 {title}
             </div>
-            <div className="font-light text-neutral-500 mt-2">
+            <div className="font-light text-neutral-500 mt-2 mb-4">
                 {subtitle}
             </div>
             <Button variant="default" size="default" onClick={() => router.push('/')}>

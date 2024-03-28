@@ -6,140 +6,179 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
-  relationMode = "prisma"
 }
+
+// model Store {
+//   id            String      @id @default(uuid())
+//   name          String
+//   userId        String
+//   billboards    Billboard[] @relation("StoreToBillboard")
+//   categories    Category[]  @relation("StoreToCategory")
+//   sizes         Size[]      @relation("StoreToSize")
+//   colors        Color[]     @relation("StoreToColor")
+//   products      Product[]   @relation("StoreToProduct")
+//   orders        Order[]     @relation("StoreToOrder")
+//   createdAt     DateTime    @default(now())
+//   updatedAt     DateTime    @updatedAt
+// }
 
 model Store {
-  id            String      @id @default(uuid())
-  name          String
-  userId        String
-  billboards    Billboard[] @relation("StoreToBillboard")
-  categories    Category[]  @relation("StoreToCategory")
-  sizes         Size[]      @relation("StoreToSize")
-  colors        Color[]     @relation("StoreToColor")
-  products      Product[]   @relation("StoreToProduct")
-  orders        Order[]     @relation("StoreToOrder")
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  id                String        @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  userId            String
+  billboards        Billboard[]   @relation("StoreToBillboard")
+  categories        Category[]    @relation("StoreToCategory")
+  sizes             Size[]        @relation("StoreToSize")
+  colors            Color[]       @relation("StoreToColor")
+  products          Product[]     @relation("StoreToProduct")
+  orders            Order[]       @relation("StoreToOrder")
+
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
 }
+
+// model Billboard {
+//   id            String      @id @default(uuid())
+//   storeId       String
+//   store         Store       @relation("StoreToBillboard", fields: [storeId], references: [id])
+//   label         String
+//   imageUrl      String
+//   categories    Category[]
+//   createdAt     DateTime    @default(now())
+//   updatedAt     DateTime    @updatedAt
+
+//   @@index([storeId])
+// }
 
 model Billboard {
-  id            String      @id @default(uuid())
-  storeId       String
-  store         Store       @relation("StoreToBillboard", fields: [storeId], references: [id])
-  label         String
-  imageUrl      String
-  categories    Category[]
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  id                String        @id @default(auto()) @map("_id") @db.ObjectId
+  storeId           String        @db.ObjectId
+  store             Store         @relation("StoreToBillboard", fields:[storeId], references: [id]) 
+  label             String
+  imageUrl          String
+  categories        Category[]
 
-  @@index([storeId])
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
 }
+
+// model Category {
+//   id            String      @id @default(uuid())
+//   storeId       String
+//   store         Store       @relation("StoreToCategory", fields: [storeId], references: [id])
+//   billboardId   String
+//   billboard     Billboard   @relation(fields: [billboardId], references: [id])
+//   products      Product[]   @relation("CategoryToProduct")
+//   name          String
+//   createdAt     DateTime    @default(now())
+//   updatedAt     DateTime    @updatedAt
+
+//   @@index([storeId])
+//   @@index([billboardId])
+// }
 
 model Category {
-  id            String      @id @default(uuid())
-  storeId       String
-  store         Store       @relation("StoreToCategory", fields: [storeId], references: [id])
-  billboardId   String
-  billboard     Billboard   @relation(fields: [billboardId], references: [id])
-  products      Product[]   @relation("CategoryToProduct")
-  name          String
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-
-  @@index([storeId])
-  @@index([billboardId])
+  id                String        @id @default(auto()) @map("_id") @db.ObjectId
+  storeId           String        @db.ObjectId
+  store             Store         @relation("StoreToCategory", fields:[storeId], references:[id]) 
+  billboardId       String
+  billboard         Billboard     @relation(fields: [billboardId], references: [id])
+  products          Product[]     @relation("CategoryToProduct")
+  name              String
+  // productCount      Int           @default(0)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
 }
 
-model Size {
-  id            String      @id @default(uuid())
-  storeId       String
-  store         Store       @relation("StoreToSize", fields: [storeId], references: [id])
-  name          String
-  value         String
-  products      Product[]
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+// model Size {
+//   id            String      @id @default(uuid())
+//   storeId       String
+//   store         Store       @relation("StoreToSize", fields: [storeId], references: [id])
+//   name          String
+//   value         String
+//   products      Product[]
+//   createdAt     DateTime    @default(now())
+//   updatedAt     DateTime    @updatedAt
 
-  @@index([storeId])
-}
+//   @@index([storeId])
+// }
 
-model Color {
-  id            String      @id @default(uuid())
-  storeId       String
-  store         Store       @relation("StoreToColor", fields: [storeId], references: [id])
-  name          String
-  value         String
-  products      Product[]
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+// model Color {
+//   id            String      @id @default(uuid())
+//   storeId       String
+//   store         Store       @relation("StoreToColor", fields: [storeId], references: [id])
+//   name          String
+//   value         String
+//   products      Product[]
+//   createdAt     DateTime    @default(now())
+//   updatedAt     DateTime    @updatedAt
 
-  @@index([storeId])
-}
+//   @@index([storeId])
+// }
 
-model Product {
-  id            String      @id @default(uuid())
-  storeId       String
-  store         Store       @relation("StoreToProduct", fields: [storeId], references: [id])
-  categoryId    String
-  category      Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
-  name          String
-  description   String
-  composition   String
-  price         Decimal
-  isFeatured    Boolean     @default(false)
-  isArchived    Boolean     @default(false)
-  quantity      Int         @default(1)
-  sizeId        String
-  size          Size        @relation(fields: [sizeId], references: [id])
-  colorId       String
-  color         Color       @relation(fields: [colorId], references: [id])
-  images        Image[]
-  orderItems    OrderItem[]
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+// model Product {
+//   id            String      @id @default(uuid())
+//   storeId       String
+//   store         Store       @relation("StoreToProduct", fields: [storeId], references: [id])
+//   categoryId    String
+//   category      Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
+//   name          String
+//   description   String
+//   composition   String
+//   price         Decimal
+//   isFeatured    Boolean     @default(false)
+//   isArchived    Boolean     @default(false)
+//   quantity      Int         @default(1)
+//   sizeId        String
+//   size          Size        @relation(fields: [sizeId], references: [id])
+//   colorId       String
+//   color         Color       @relation(fields: [colorId], references: [id])
+//   images        Image[]
+//   orderItems    OrderItem[]
+//   createdAt     DateTime    @default(now())
+//   updatedAt     DateTime    @updatedAt
   
-  @@index([storeId])
-  @@index([categoryId])
-  @@index([sizeId])
-  @@index([colorId])
-}
+//   @@index([storeId])
+//   @@index([categoryId])
+//   @@index([sizeId])
+//   @@index([colorId])
+// }
 
-model Image {
-  id            String      @id @default(uuid())
-  productId     String
-  product       Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
-  url           String
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+// model Image {
+//   id            String      @id @default(uuid())
+//   productId     String
+//   product       Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+//   url           String
+//   createdAt     DateTime    @default(now())
+//   updatedAt     DateTime    @updatedAt
 
-  @@index([productId])
-}
+//   @@index([productId])
+// }
 
-model Order {
-  id            String      @id @default(uuid())
-  storeId       String
-  store         Store       @relation("StoreToOrder", fields: [storeId], references: [id])
-  orderItems    OrderItem[]
-  isPaid        Boolean     @default(false)
-  phone         String      @default("")
-  address       String      @default("")
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+// model Order {
+//   id            String      @id @default(uuid())
+//   storeId       String
+//   store         Store       @relation("StoreToOrder", fields: [storeId], references: [id])
+//   orderItems    OrderItem[]
+//   isPaid        Boolean     @default(false)
+//   phone         String      @default("")
+//   address       String      @default("")
+//   createdAt     DateTime    @default(now())
+//   updatedAt     DateTime    @updatedAt
 
-  @@index([storeId])
-}
+//   @@index([storeId])
+// }
 
-model OrderItem {
-  id            String      @id @default(uuid())
-  orderId       String
-  order         Order       @relation(fields: [orderId], references: [id])
-  productId     String
-  product       Product     @relation(fields: [productId], references: [id])
-  orderQuantity Int
+// model OrderItem {
+//   id            String      @id @default(uuid())
+//   orderId       String
+//   order         Order       @relation(fields: [orderId], references: [id])
+//   productId     String
+//   product       Product     @relation(fields: [productId], references: [id])
+//   orderQuantity Int
 
-  @@index([orderId])
-  @@index([productId])
-}
+//   @@index([orderId])
+//   @@index([productId])
+// }
