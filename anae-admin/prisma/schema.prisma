@@ -234,6 +234,20 @@ model Image {
 //   @@index([storeId])
 // }
 
+model Order {
+  id                String        @id @default(auto()) @map("_id") @db.ObjectId
+  storeId           String        @db.ObjectId 
+  store             Store         @relation("StoreToOrder", fields: [storeId], references: [id])
+  orderItems        OrderItem[]
+  isPaid            Boolean       @default(false)
+  phone             String        @default("")
+  orderNumber       String
+  address           String        @default("")
+  
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+}
+
 // model OrderItem {
 //   id            String      @id @default(uuid())
 //   orderId       String
