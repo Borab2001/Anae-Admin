@@ -171,6 +171,34 @@ model Color {
 //   @@index([colorId])
 // }
 
+model Product {
+  id                String        @id @default(auto()) @map("_id") @db.ObjectId
+  storeId           String        @db.ObjectId
+  store             Store         @relation("StoreToProduct", fields:[storeId], references:[id])
+  categoryId        String        @db.ObjectId
+  category          Category      @relation("CategoryToProduct", fields:[categoryId], references:[id])
+  name              String
+  description       String
+  composition       String
+  price             Float
+  priceDrop         Float         @default(0.0)
+  isFeatured        Boolean       @default(false)
+  isArchived        Boolean       @default(false)
+  quantity          Int
+  isNew             Boolean       @default(true)
+  sizeIds           String[]      @db.ObjectId
+  sizes             Size []       @relation(fields: [sizeIDs], references: [id])
+  colorId           String
+  color             Color
+  images            Image[]
+  orderItems        OrderItem[]
+  // reviews           Review[]      @relation("ProductToReview") 
+  // reference         String
+  
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt 
+}
+
 // model Image {
 //   id            String      @id @default(uuid())
 //   productId     String
