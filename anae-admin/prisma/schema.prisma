@@ -187,9 +187,9 @@ model Product {
   quantity          Int
   isNew             Boolean       @default(true)
   sizeIds           String[]      @db.ObjectId
-  sizes             Size []       @relation(fields: [sizeIDs], references: [id])
-  colorId           String
-  color             Color
+  sizes             Size []       @relation(fields: [sizeIds], references: [id])
+  colorId           String        @db.ObjectId
+  color             Color         @relation(fields: [colorId], references: [id])
   images            Image[]
   orderItems        OrderItem[]
   // reviews           Review[]      @relation("ProductToReview") 
