@@ -105,6 +105,19 @@ model Category {
 //   @@index([storeId])
 // }
 
+model Size {
+  id                String        @id @default(auto()) @map("_id") @db.ObjectId
+  storeId           String        @db.ObjectId
+  store             Store         @relation("StoreToSize", fields: [storeId], references: [id])
+  name              String
+  value             String  
+  productIds        String[]      @db.ObjectId
+  products          Product[]     @relation(fields: [productIds], references: [id])
+  
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+}
+
 // model Color {
 //   id            String      @id @default(uuid())
 //   storeId       String
