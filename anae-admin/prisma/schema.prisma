@@ -83,7 +83,7 @@ model Category {
   id                String        @id @default(auto()) @map("_id") @db.ObjectId
   storeId           String        @db.ObjectId
   store             Store         @relation("StoreToCategory", fields:[storeId], references:[id]) 
-  billboardId       String
+  billboardId       String        @db.ObjectId
   billboard         Billboard     @relation(fields: [billboardId], references: [id])
   products          Product[]     @relation("CategoryToProduct")
   name              String
