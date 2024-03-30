@@ -1,4 +1,5 @@
 import prismadb from "@/lib/prismadb";
+import { ObjectId } from "mongodb";
 
 import { CategoryForm } from "./components/category-form";
 
@@ -7,11 +8,25 @@ const CategoryPage = async ({
 }: {
     params: { categoryId: string, storeId: string }
 }) => {
-    const category = await prismadb.category.findUnique({
-        where: {
-            id: params.categoryId
-        }
-    });
+    // const category = await prismadb.category.findUnique({
+    //     where: {
+    //         id: params.categoryId
+    //     }
+    // });
+    
+    let category;
+
+    if (!ObjectId.isValid(params.categoryId)) {
+        category = null;
+        console.error('Invalid categoryId provided:', params.categoryId);
+    } else {
+        category = await prismadb.category.findUnique({
+            where: { 
+                id: params.categoryId 
+            },
+        });
+    }
+
 
     const billboards = await prismadb.billboard.findMany({
         where: {
