@@ -1,4 +1,5 @@
 import prismadb from "@/lib/prismadb";
+import { ObjectId } from "mongodb";
 
 import { ProductForm } from "./components/product-form";
 
@@ -7,14 +8,29 @@ const ProductPage = async ({
 }: {
     params: { productId: string, storeId: string }
 }) => {
-    const product = await prismadb.product.findUnique({
-        where: {
-            id: params.productId
-        },
-        include: {
-            images: true
-        }
-    });
+    // const product = await prismadb.product.findUnique({
+    //     where: {
+    //         id: params.productId
+    //     },
+    //     include: {
+    //         images: true
+    //     }
+    // });
+
+    let product;
+    if (ObjectId.isValid(params.productId)) {
+        product = await prismadb.product.findUnique({
+            where: {
+                id: params.productId
+            },
+            include: {
+                images: true
+            }
+        });
+    } else {
+        // console.error('Invalid productId provided:', params.productId);
+        product = null;
+    }
 
     const categories = await prismadb.category.findMany({
         where: {
