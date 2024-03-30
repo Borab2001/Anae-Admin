@@ -1,4 +1,5 @@
 import prismadb from "@/lib/prismadb";
+import { ObjectId } from "mongodb";
 
 import { BillboardForm } from "./components/billboard-form";
 
@@ -7,11 +8,20 @@ const BillboardPage = async ({
 }: {
     params: { billboardId: string }
 }) => {
-    const billboard = await prismadb.billboard.findUnique({
-        where: {
-            id: params.billboardId
-        }
-    });
+    // const billboard = await prismadb.billboard.findUnique({
+    //     where: {
+    //         id: params.billboardId
+    //     }
+    // });
+
+    let billboard;
+    if (!ObjectId.isValid(params.billboardId)) {
+        billboard = null;
+    } else {
+        billboard = await prismadb.billboard.findUnique({
+            where: { id: params.billboardId },
+        });
+    }
 
     return (
         <div className="flex-col">
