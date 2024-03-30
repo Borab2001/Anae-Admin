@@ -30,7 +30,7 @@ const formSchema = z.object({
     price: z.coerce.number().min(1),
     categoryId: z.string().min(1),
     colorId: z.string().min(1),
-    sizeId: z.string().min(1),
+    sizeIds: z.array(z.string()),
     isFeatured: z.boolean().default(false).optional(),
     isArchived: z.boolean().default(false).optional(),
 });
@@ -67,6 +67,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         resolver: zodResolver(formSchema),
         defaultValues: initialData ? {
             ...initialData,
+            sizeIds: initialData.sizeIds,
             price: parseFloat(String(initialData?.price)),
         } : {
             name: '',
@@ -76,7 +77,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             price: 0,
             categoryId: '',
             colorId: '',
-            sizeId: '',
+            sizeIds: [],
             isFeatured: false,
             isArchived: false,
         }
@@ -251,12 +252,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                         {sizes.length > 0 && (
                             <FormField
                                 control={form.control}
-                                name="sizeId"
+                                name="sizeIds"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Size</FormLabel>
-                                        {/* <FormControl> */}
-                                            <Select 
+                                        <FormControl>
+                                            {/* <Select 
                                                 disabled={loading} 
                                                 onValueChange={field.onChange} 
                                                 value={field.value} 
@@ -280,8 +281,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                                         </SelectItem>
                                                     ))}
                                                 </SelectContent>
-                                            </Select>
-                                            {/* <MultiSelect 
+                                            </Select> */}
+                                            <MultiSelect 
                                                 placeholder="Select sizes"
                                                 sizes={sizes}
                                                 value={field.value}
@@ -293,8 +294,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                                         ),
                                                     ])
                                                 }
-                                            /> */}
-                                        {/* </FormControl> */}
+                                            />
+                                        </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
