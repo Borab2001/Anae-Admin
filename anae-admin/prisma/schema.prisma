@@ -181,11 +181,11 @@ model Product {
   description       String
   composition       String
   price             Float
-  priceDrop         Float         @default(0.0)
+  // priceDrop         Float         @default(0.0)
   isFeatured        Boolean       @default(false)
   isArchived        Boolean       @default(false)
-  quantity          Int
   isNew             Boolean       @default(true)
+  // quantity          Int
   sizeIds           String[]      @db.ObjectId
   sizes             Size []       @relation(fields: [sizeIds], references: [id])
   colorId           String        @db.ObjectId
