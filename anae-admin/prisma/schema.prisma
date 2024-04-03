@@ -181,7 +181,8 @@ model Product {
   description       String
   composition       String
   price             Float
-  // priceDrop         Float         @default(0.0)
+  salePrice         Float
+  onSale            Boolean
   isFeatured        Boolean       @default(false)
   isArchived        Boolean       @default(false)
   isNew             Boolean       @default(true)

@@ -31,6 +31,8 @@ const formSchema = z.object({
     categoryId: z.string().min(1),
     colorId: z.string().min(1),
     sizeIds: z.array(z.string()),
+    salePrice: z.coerce.number().min(1),
+    onSale: z.boolean().default(false).optional(),
     isNew: z.boolean().default(false).optional(),
     isFeatured: z.boolean().default(false).optional(),
     isArchived: z.boolean().default(false).optional(),
@@ -79,6 +81,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             categoryId: '',
             colorId: '',
             sizeIds: [],
+            salePrice: 0,
+            onSale: false,
             isNew: false,
             isFeatured: false,
             isArchived: false,
@@ -407,6 +411,45 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                 </FormItem>
                             )}
                         />
+                        <FormField
+                            control={form.control}
+                            name="onSale"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value}
+                                            // @ts-ignore
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <div className="space-y-1 leading-none">
+                                        <FormLabel>
+                                            On Sale
+                                        </FormLabel>
+                                        <FormDescription>
+                                            Check this box if the product is on sale
+                                        </FormDescription>
+                                    </div>
+                                </FormItem>
+                            )}
+                        />
+
+                        {form.watch("onSale") && (
+                            <FormField
+                                control={form.control}
+                                name="salePrice"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Sale Price</FormLabel>
+                                        <FormControl>
+                                            <Input type="number" disabled={loading} placeholder="Sale price" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        )}
                     </div>
                     <Button disabled={loading} className="ml-auto" type="submit">
                         {action}
