@@ -48,7 +48,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   const selectables = sizes.filter((size) => !selected.includes(size));
 
   return (
-    <Command className="overflow-visible bg-white">
+    <Command className="overflow-visible bg-background">
       <div className="flex gap-1 flex-wrap border rounded-md">
         {selected.map((size) => (
           <Badge key={size.id} className="rounded-md">
@@ -74,7 +74,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
 
       <div className="relative mt-2">
         {open && (
-          <CommandGroup className="absolute w-full z-30 top-0 overflow-auto border rounded-md shadow-md">
+          <CommandGroup className="bg-background absolute w-full z-30 top-0 overflow-auto border rounded-md shadow-md">
             {selectables.map((size) => (
               <CommandItem
                 key={size.id}
