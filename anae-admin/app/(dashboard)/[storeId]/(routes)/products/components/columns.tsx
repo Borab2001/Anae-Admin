@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import Image from "next/image"
+// import Image from "next/image"
 
 import { CellAction } from "./cell-action"
 
@@ -20,21 +20,21 @@ export type ProductColumn = {
     isFeatured: boolean
     isArchived: boolean
     createdAt: string
-    images: string[]
+    // images: string[]
 }
 
 export const columns: ColumnDef<ProductColumn>[] = [
-    {
-        accessorKey: "images",
-        header: "Image",
-        cell: ({ row }) => (
-            <div className="flex items-center justify-center">
-                {row.original?.images.map((image, index) => (
-                    <Image key={index} objectFit='contain' className="rounded-md border" width="42" height="42" alt="" src={image} />
-                ))}
-            </div>
-        )
-    },
+    // {
+    //     accessorKey: "images",
+    //     header: "Image",
+    //     cell: ({ row }) => (
+    //         <div className="flex items-center justify-center">
+    //             {row.original?.images.map((image, index) => (
+    //                 <Image key={index} objectFit='contain' className="rounded-md border" width="42" height="42" alt="" src={image} />
+    //             ))}
+    //         </div>
+    //     )
+    // },
     {
         accessorKey: "name",
         header: "Name",

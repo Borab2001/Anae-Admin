@@ -20,7 +20,7 @@ const ProductsPage = async ({
             category: true,
             sizes: true,
             color: true,
-            images: true
+            // images: true
         },
         orderBy: {
             createdAt: 'desc'
@@ -29,11 +29,11 @@ const ProductsPage = async ({
 
     const formattedProducts: ProductColumn[] = products.map((item) => {
         const sizes = item.sizes?item.sizes.map((size) => size.value):["No size"];
-        let image = item.images.length > 0 ? item.images[0].url:"";
+        // let image = item.images.length > 0 ? item.images[0].url:"";
 
         return {
             id: item.id,
-            images: [image],
+            // images: [image],
             name: item.name,
             description: item.description,
             composition: item.composition,
