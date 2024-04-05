@@ -91,6 +91,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
     const onSubmit = async (data: ProductFormValues) => {
         try {
+            // console.log(data);
             setLoading(true);
             if (initialData) {
                 await axios.patch(`/api/${params.storeId}/products/${params.productId}`, data);
@@ -105,6 +106,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         } finally {
             setLoading(false);
         }
+        // console.log(data);
     };
 
     const onDelete = async () => {

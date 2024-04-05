@@ -188,7 +188,7 @@ model Product {
   isNew             Boolean       @default(true)
   // quantity          Int
   sizeIds           String[]      @db.ObjectId
-  sizes             Size []       @relation(fields: [sizeIds], references: [id])
+  sizes             Size[]        @relation(fields: [sizeIds], references: [id])
   colorId           String        @db.ObjectId
   color             Color         @relation(fields: [colorId], references: [id])
   images            Image[]

@@ -18,10 +18,13 @@ export async function POST(
             price,
             categoryId,
             colorId,
-            sizeId,
+            sizeIds,
             images,
             isFeatured,
-            isArchived
+            isArchived,
+            isNew,
+            onSale,
+            salePrice
          } = body;
 
         if (!userId) {
@@ -56,8 +59,12 @@ export async function POST(
             return new NextResponse("Color ID is required", { status: 400 });
         }
 
-        if (!sizeId) {
+        if (!sizeIds) {
             return new NextResponse("Size ID is required", { status: 400 });
+        }
+
+        if (!salePrice) {
+            return new NextResponse("Sale Price is required", { status: 400 });
         }
 
         if (!params.storeId) {
@@ -75,6 +82,8 @@ export async function POST(
             return new NextResponse("Unauthorized", { status: 403 });
         }
 
+        console.log(body);
+
         const product = await prismadb.product.create({
             data: {
                 name,
@@ -83,9 +92,12 @@ export async function POST(
                 price,
                 categoryId,
                 colorId,
-                sizeId,
+                sizeIds,
                 isFeatured,
                 isArchived,
+                isNew,
+                onSale,
+                salePrice,
                 storeId: params.storeId,
                 images: {
                     createMany: {
@@ -113,7 +125,7 @@ export async function GET(
         const { searchParams } = new URL(req.url);
         const categoryId = searchParams.get("categoryId") || undefined;
         const colorId = searchParams.get("colorId") || undefined;
-        const sizeId = searchParams.get("sizeId") || undefined;
+        // const sizeIds = searchParams.get("sizeIds") || undefined;
         const isFeatured = searchParams.get("isFeatured");
 
 
@@ -126,15 +138,17 @@ export async function GET(
                 storeId: params.storeId,
                 categoryId,
                 colorId,
-                sizeId,
+                // sizeIds,
                 isFeatured: isFeatured ? true : undefined,
-                isArchived: false
+                isArchived: false,
+                isNew: false,
+                // onSale: true
             },
             include: {
                 images: true,
                 category: true,
                 color: true,
-                size: true
+                sizes: true
             },
             orderBy: {
                 createdAt: 'desc'
