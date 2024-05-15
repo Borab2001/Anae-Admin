@@ -290,7 +290,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                                     ))}
                                                 </SelectContent>
                                             </Select> */}
-                                            <MultiSelect 
+                                            {/* <MultiSelect 
                                                 placeholder="Select sizes"
                                                 sizes={sizes}
                                                 value={field.value}
@@ -302,7 +302,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                                         ),
                                                     ])
                                                 }
-                                            />
+                                            /> */}
+                                            <MultiSelect title="Select sizes" sizes={sizes} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
