@@ -2,7 +2,6 @@
 
 import { Size } from "@prisma/client";
 import { useState } from "react";
-import { X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -20,103 +19,40 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { CheckIcon, PlusSquareIcon } from "lucide-react";
-
-// interface MultiSelectProps {
-//   placeholder: string;
-//   sizes: Size[];
-//   value: string[];
-//   onChange: (value: string) => void;
-//   onRemove: (value: string) => void;
-// }
 
 interface MultiSelectProps {
   title: string;
   sizes: Size[];
+  value: string[];
+  onChange: (value: string[]) => void;
+  onRemove: (value: string) => void;
 }
 
 const MultiSelect: React.FC<MultiSelectProps> = ({
-  // placeholder,
-  // sizes,
-  // value,
-  // onChange,
-  // onRemove,
   title,
-  sizes
+  sizes,
+  value,
+  onChange,
+  onRemove,
 }) => {
-  // const [inputValue, setInputValue] = useState("");
-  // const [open, setOpen] = useState(false);
+  const [selectedValues, setSelectedValues] = useState<string[]>(value);
 
-  // let selected: Size[];
-
-  // if (value.length === 0) {
-  //   selected = [];
-  // } else {
-  //   selected = value.map((id) =>
-  //     sizes.find((size) => size.id === id)
-  //   ) as Size[];
-  // }
-
-  // const selectables = sizes.filter((size) => !selected.includes(size));
-
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const handleSelect = (id: string) => {
+    const newValue = selectedValues.includes(id)
+      ? selectedValues.filter((v) => v !== id)
+      : [...selectedValues, id];
+    setSelectedValues(newValue);
+    onChange(newValue);
+  };
 
   return (
-    // <Command className="overflow-visible bg-background">
-    //   <div className="flex gap-1 flex-wrap border rounded-md">
-    //     {selected.map((size) => (
-    //       <Badge key={size.id} className="rounded-md">
-    //         {size.value}
-    //         <button
-    //           type="button"
-    //           className="ml-1 hover:text-red-600"
-    //           onClick={() => onRemove(size.id)}
-    //         >
-    //           <X className="h-3 w-3" />
-    //         </button>
-    //       </Badge>
-    //     ))}
-
-    //     <CommandInput
-    //       placeholder={placeholder}
-    //       value={inputValue}
-    //       onValueChange={setInputValue}
-    //       onBlur={() => setOpen(false)}
-    //       onFocus={() => setOpen(true)}
-    //     />
-    //   </div>
-
-    //   <div className="relative mt-2">
-    //     {open && (
-    //       <CommandGroup className="bg-background absolute w-full z-30 top-0 overflow-auto border rounded-md shadow-md">
-    //         {selectables.map((size) => (
-    //           <CommandItem
-    //             key={size.id}
-    //             onMouseDown={(e) => e.preventDefault()}
-    //             onSelect={() => {
-    //               onChange(size.id);
-    //               setInputValue("");
-    //             }}
-    //             className="hover:bg-gray-800 cursor-pointer"
-    //           >
-    //             {size.value}
-    //           </CommandItem>
-    //         ))}
-    //       </CommandGroup>
-    //     )}
-    //   </div>
-    // </Command>
-
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="outline" className="w-full justify-start">
-          {/* <PlusSquareIcon className="mr-2 size-4" /> */}
-          
-          {selectedValues?.length > 0 ? (
+          {selectedValues.length > 0 ? (
             <>
-              {/* <Separator orientation="vertical" className="mx-2 h-4" /> */}
               <div className="space-x-1">
                 {selectedValues.length > 2 ? (
                   <Badge
@@ -141,9 +77,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
               </div>
             </>
           ) : (
-            <div className="font-normal">
-              {title}
-            </div>
+            <div className="font-normal">{title}</div>
           )}
         </Button>
       </PopoverTrigger>
@@ -159,15 +93,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                 return (
                   <CommandItem
                     key={size.id}
-                    onSelect={() => {
-                      if (isSelected) {
-                        setSelectedValues(
-                          selectedValues.filter((v) => v !== size.id)
-                        );
-                      } else {
-                        setSelectedValues([...selectedValues, size.id]);
-                      }
-                    }}
+                    onSelect={() => handleSelect(size.id)}
                   >
                     <div
                       className={cn(
@@ -189,7 +115,10 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                 <CommandSeparator />
                 <CommandGroup>
                   <CommandItem
-                    onSelect={() => setSelectedValues([])}
+                    onSelect={() => {
+                      setSelectedValues([]);
+                      onChange([]);
+                    }}
                     className="justify-center text-center"
                   >
                     Clear
