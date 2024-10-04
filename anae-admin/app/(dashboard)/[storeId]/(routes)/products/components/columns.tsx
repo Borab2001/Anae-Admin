@@ -23,6 +23,12 @@ export type ProductColumn = {
     // images: string[]
 }
 
+const sizeOrder = ["XS", "S", "M", "L", "XL"];
+
+const compareSizes = (a: string, b: string) => {
+    return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
+};
+
 export const columns: ColumnDef<ProductColumn>[] = [
     // {
     //     accessorKey: "images",
@@ -65,11 +71,15 @@ export const columns: ColumnDef<ProductColumn>[] = [
     },
     {
         accessorKey: "sizes",
-        header: "Size",
+        header: "Sizes",
+        cell: ({ row }) => {
+            const sortedSizes = row.original.sizes.slice().sort(compareSizes);
+            return <div>{sortedSizes.join(", ")}</div>;
+        }
     },
     {
         accessorKey: "color",
-        header: "Color",
+        header: "Colors",
         cell: ({ row }) => (
             <div className="flex items-center gap-x-2">
                 {row.original.color}
