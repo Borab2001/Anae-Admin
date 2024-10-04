@@ -121,6 +121,15 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     }
   };
 
+  const sizeOrder = ["XSmall", "Small", "Medium", "Large", "XLarge"];
+
+  const compareSizes = (a: { value: string }, b: { value: string }) => {
+    return sizeOrder.indexOf(a.value) - sizeOrder.indexOf(b.value);
+  };
+  
+  // Trier les tailles avant de les passer au composant MultiSelect
+  const sortedSizes = sizes.slice().sort((a, b) => compareSizes({ value: a.name }, { value: b.name }));
+
   return (
     <>
       <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
@@ -235,7 +244,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
-            {sizes.length > 0 && (
+            {sortedSizes.length > 0 && (
               <FormField
                 control={form.control}
                 name="sizeIds"
@@ -245,7 +254,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <FormControl>
                       <MultiSelect
                         title="Select sizes"
-                        sizes={sizes}
+                        sizes={sortedSizes}
                         value={field.value}
                         onChange={field.onChange}
                         onRemove={(id) =>
