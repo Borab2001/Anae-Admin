@@ -37,6 +37,7 @@ const formSchema = z.object({
   isNew: z.boolean().default(false).optional(),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional(),
+  deliveryTime: z.string().min(1),
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
@@ -89,6 +90,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           isNew: false,
           isFeatured: false,
           isArchived: false,
+          deliveryTime: '',
         },
   });
 
@@ -423,6 +425,19 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 )}
               />
             )}
+            <FormField
+              control={form.control}
+              name="deliveryTime"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Delivery Time</FormLabel>
+                  <FormControl>
+                    <Input disabled={loading} placeholder="2-4 days" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}
