@@ -31,6 +31,7 @@ const formSchema = z.object({
   colorId: z.string().min(1),
   sizeIds: z.array(z.string()),
   modelHeight: z.coerce.number().min(1),
+  sizeOnModel: z.string().min(1),
   salePrice: z.coerce.number().min(1),
   onSale: z.boolean().default(false).optional(),
   isNew: z.boolean().default(false).optional(),
@@ -82,6 +83,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           colorId: '',
           sizeIds: [],
           modelHeight: 0,
+          sizeOnModel: '',
           salePrice: 0,
           onSale: false,
           isNew: false,
@@ -302,6 +304,30 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <FormControl>
                     <Input type="number" disabled={loading} placeholder="173" {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="sizeOnModel"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Size on model</FormLabel>
+                  <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue defaultValue={field.value} placeholder="Model is wearing" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {sortedSizes.map((size) => (
+                        <SelectItem key={size.id} value={size.id}>
+                          {size.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
