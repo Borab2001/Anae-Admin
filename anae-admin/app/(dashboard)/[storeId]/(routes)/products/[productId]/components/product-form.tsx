@@ -30,6 +30,7 @@ const formSchema = z.object({
   categoryId: z.string().min(1),
   colorId: z.string().min(1),
   sizeIds: z.array(z.string()),
+  modelHeight: z.coerce.number().min(1),
   salePrice: z.coerce.number().min(1),
   onSale: z.boolean().default(false).optional(),
   isNew: z.boolean().default(false).optional(),
@@ -80,6 +81,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           categoryId: '',
           colorId: '',
           sizeIds: [],
+          modelHeight: 0,
           salePrice: 0,
           onSale: false,
           isNew: false,
@@ -287,6 +289,19 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       ))}
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="modelHeight"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Model height &#40;in cm&#41;</FormLabel>
+                  <FormControl>
+                    <Input type="number" disabled={loading} placeholder="173" {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
