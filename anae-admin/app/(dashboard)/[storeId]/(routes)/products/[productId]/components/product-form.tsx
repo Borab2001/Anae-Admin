@@ -175,7 +175,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               </FormItem>
             )}
           />
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             <FormField
               control={form.control}
               name="name"
@@ -338,6 +338,32 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
             <FormField
               control={form.control}
+              name="deliveryTime"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Delivery Time</FormLabel>
+                  <FormControl>
+                    <Input disabled={loading} placeholder="2-4 days" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="quantity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Quantity</FormLabel>
+                  <FormControl>
+                    <Input type="number" disabled={loading} placeholder="2000" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="isFeatured"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
@@ -350,7 +376,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel>Featured</FormLabel>
-                    <FormDescription>This product will appear on the products page</FormDescription>
+                    <FormDescription>Product will appear on the products page</FormDescription>
                   </div>
                 </FormItem>
               )}
@@ -369,7 +395,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel>Archived</FormLabel>
-                    <FormDescription>This product will not appear anywhere in the store</FormDescription>
+                    <FormDescription>Product will not appear anywhere</FormDescription>
                   </div>
                 </FormItem>
               )}
@@ -388,7 +414,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel>New</FormLabel>
-                    <FormDescription>This product will appear on the home page</FormDescription>
+                    <FormDescription>Product will appear on the home page</FormDescription>
                   </div>
                 </FormItem>
               )}
@@ -427,32 +453,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 )}
               />
             )}
-            <FormField
-              control={form.control}
-              name="deliveryTime"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Delivery Time</FormLabel>
-                  <FormControl>
-                    <Input disabled={loading} placeholder="2-4 days" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="quantity"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Quantity</FormLabel>
-                  <FormControl>
-                    <Input type="number" disabled={loading} placeholder="2000" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}
