@@ -47,6 +47,10 @@ const ProductsPage = async ({
             sizes: sizes,
             color: item.color.value,
             createdAt: format(item.createdAt, 'MMMM do, yyyy'),
+            modelHeight: item.modelHeight || "No height",
+            sizeOnModel: item.sizeOnModel,
+            quantity: item.quantity,
+            deliveryTime: item.deliveryTime,
         }
     });
 

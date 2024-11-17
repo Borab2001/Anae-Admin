@@ -186,13 +186,16 @@ model Product {
   isFeatured        Boolean       @default(false)
   isArchived        Boolean       @default(false)
   isNew             Boolean       @default(true)
-  // quantity          Int
   sizeIds           String[]      @db.ObjectId
   sizes             Size[]        @relation(fields: [sizeIds], references: [id])
   colorId           String        @db.ObjectId
   color             Color         @relation(fields: [colorId], references: [id])
   images            Image[]
   orderItems        OrderItem[]
+  modelHeight       String
+  sizeOnModel       String
+  quantity          Int
+  deliveryTime      String
   // reviews           Review[]      @relation("ProductToReview") 
   // reference         String
   
